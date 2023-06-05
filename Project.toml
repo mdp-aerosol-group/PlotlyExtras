@@ -2,3 +2,6 @@ name = "PlotlyExtras"
 uuid = "a3ba39df-0b3f-4ab5-8a3f-5d71f5cd2a8e"
 authors = ["Markus Petters <mdpetter@ncsu.edu>"]
 version = "0.1.0"
+
+[deps]
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
