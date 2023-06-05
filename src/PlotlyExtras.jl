@@ -2,16 +2,14 @@ module PlotlyExtras
 
 using JSON 
 
-export to_html
+export to_html, get_layout
 
-const CDN = """    <script src="https://cdn.plot.ly/plotly-2.20.0.min.js" charset="utf-8"></script>"""
-const LOCAL = "    <script src='plotly-2.20.0.min.js'></script>"
 
 f_helper(x) = x
 f_helper(d::Dict) = Dict(Symbol(k) => f_helper(v) for (k, v) in d)
 symbol_dict(d::Dict) = f_helper(d)
 
-function getlayout(template)
+function get_layout(template)
     io = open(template, "r")
     s = read(io) |> String
     temp = JSON.parse(s)
@@ -20,7 +18,10 @@ function getlayout(template)
     symbol_dict(temp)
 end
 
-function to_html(file, plots; template="plotly_white.json", use_CDN = true)
+function to_html(file, plots; template="plotly_white.json", use_CDN = true, version = "plotly-2.20.0.min.js", displayModeBar = false)
+    CDN = """    <script src="https://cdn.plot.ly/plotly-2.20.0.min.js" charset="utf-8"></script>"""
+    LOCAL = """    <script src="$(version)"></script>"""
+    
     io = open("tmp.html", "w")
     header = (use_CDN == true) ? CDN : LOCAL
 
@@ -45,8 +46,9 @@ function to_html(file, plots; template="plotly_white.json", use_CDN = true)
     print(io, "    <script>")
     map(plots, ids) do p, i
         js = JSON.lower(p)
-        setindex!(js[:config], false, :displayModeBar)
-
+        if displayModeBar == false
+            setindex!(js[:config], false, :displayModeBar)
+        end
         print(io, "\n")
         print(io, "        const data_$(i) = $(json(js[:data]))")
         print(io, "\n")
