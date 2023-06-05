@@ -67,7 +67,7 @@ function to_html(file, plots; template="plotly_white.json", use_CDN = true, vers
     print(io, "    </script>\n   </body>\n</html>")
     close(io)
 
-    cp("tmp.html", file; force=true)
+    mv("tmp.html", file; force=true)    
 end
 
 end 
