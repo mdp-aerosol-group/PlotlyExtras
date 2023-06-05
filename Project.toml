@@ -1,0 +1,4 @@
+name = "PlotlyExtras"
+uuid = "a3ba39df-0b3f-4ab5-8a3f-5d71f5cd2a8e"
+authors = ["Markus Petters <mdpetter@ncsu.edu>"]
+version = "0.1.0"
